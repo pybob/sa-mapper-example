@@ -26,7 +26,10 @@ class Database:
         return sessionmaker(bind=self._engine)()
 
     def create_tables(self):
-        metadata.create_all(self._engine)
+        metadata.create_all(bind=self._engine)
+
+    def drop_tables(self):
+        metadata.drop_all(bind=self._engine)
 
     def commit(self):
         self.session.commit()
@@ -37,7 +40,7 @@ class Database:
     def get_cars(self, vin=None):
         query = self._query_cars()
         if vin is not None:
-            return query.filter_by(vin=vin)
+            query = query.filter_by(vin=vin)
         return query.all()
 
     def get_number_of_cars(self):
