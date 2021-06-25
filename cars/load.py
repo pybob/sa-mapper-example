@@ -13,8 +13,7 @@ def _load_cars_from_csv(path=CARS_DATA):
             yield row
 
 
-def import_cars():
-    db = Database()
+def import_cars(db):
     for row in _load_cars_from_csv():
         vin = row["vin"]
         if db.get_cars(vin=vin):
@@ -27,4 +26,6 @@ def import_cars():
 
 
 if __name__ == "__main__":
-    import_cars()
+    db = Database()
+    db.create_tables()
+    import_cars(db)

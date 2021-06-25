@@ -8,27 +8,25 @@ from .models import metadata, Car
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-
-def _create_engine(db_url=DATABASE_URL, echo=False):
-    return create_engine(db_url, echo=echo)
-
-
-def create_all(engine=None):
-    engine = engine if engine else _create_engine()
-    metadata.create_all(engine)
-
-
-def create_session(engine=None):
-    engine = engine if engine else _create_engine()
-    return sessionmaker(bind=engine)()
+DEFAULT_DATABASE_URL = os.getenv("DATABASE_URL")
 
 
 class Database:
 
-    def __init__(self, session=None):
-        self.session = session if session else create_session()
+    def __init__(self, db_url=None, show_sql=False):
+        self.db_url = db_url or DEFAULT_DATABASE_URL
+        self.show_sql = show_sql
+        self._engine = self._create_engine()
+        self.session = self._create_session()
+
+    def _create_engine(self):
+        return create_engine(self.db_url, echo=self.show_sql)
+
+    def _create_session(self):
+        return sessionmaker(bind=self._engine)()
+
+    def create_tables(self):
+        metadata.create_all(self._engine)
 
     def commit(self):
         self.session.commit()
@@ -47,7 +45,3 @@ class Database:
 
     def add_car(self, car):
         self.session.add(car)
-
-
-if __name__ == "__main__":
-    create_all()
