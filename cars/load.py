@@ -1,6 +1,6 @@
 import csv
 
-from .db import Database
+from .database import Database
 from .schemas import Car
 
 CARS_DATA = "cars/cars.csv"
