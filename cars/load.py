@@ -1,7 +1,7 @@
 import csv
 
 from .db import Database
-from .data import Car
+from .schemas import Car
 
 
 def main():

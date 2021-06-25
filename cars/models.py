@@ -5,7 +5,7 @@ from sqlalchemy import (Column, Integer, MetaData,
                         String, Table)
 from sqlalchemy.orm import mapper
 
-from .data import Car
+from .schemas import Car
 
 metadata = MetaData()
 

@@ -1,9 +1,14 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
 
-from .orm import metadata, Car
+from .models import metadata, Car
 
-DATABASE_URL = 'sqlite:///db.sqlite3'
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 
 def _create_engine(db_url=DATABASE_URL, echo=False):
