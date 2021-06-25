@@ -36,8 +36,11 @@ class Database:
     def _query_cars(self):
         return self.session.query(Car)
 
-    def get_cars(self):
-        return self._query_cars().all()
+    def get_cars(self, vin=None):
+        query = self._query_cars()
+        if vin is not None:
+            return query.filter_by(vin=vin)
+        return query.all()
 
     def get_number_of_cars(self):
         return self._query_cars().count()
