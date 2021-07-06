@@ -40,3 +40,5 @@ jobs:
       env:
         DATABASE_URL: sqlite:///prod.db
         TEST_DATABASE_URL: sqlite:///test.db
+    - name: Mypy Check
+      uses: jpetrucciani/mypy-check@0.761
